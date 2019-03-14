@@ -1,23 +1,79 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package codigo;
 
-/**
- *
- * @author Jorge Cisneros
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import javax.swing.Timer;
+
+/*
+ * @author Daniel Bardera
  */
 public class VentanaJuego extends javax.swing.JFrame {
 
+    static int ANCHOPANTALLA = 600;
+    // Static si quieres que una variable no cambie durante el juego
+    // se pone en mayúsculas el nombre de la variable
+    static int ALTOPANTALLA = 450;
+    
+    BufferedImage buffer = null;
+    // El buffer almacena las operaciones que vamos realizando para no 
+    //modificar el jPanel
+    
+    Timer temporizador = new Timer (10, new ActionListener() {
+         // 10 es el tiempo que va a tardar en llamar a la función
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           bucleDelJuego();
+           // creamos un método que realizará el cambio de posición
+        }
+    });
+   
+    
+    
+    
     /**
      * Creates new form VentanaJuego
      */
     public VentanaJuego() {
         initComponents();
+        setSize(ANCHOPANTALLA, ALTOPANTALLA);
+        buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);
+        // con el bufferedImage le marcamos el tipo del que tiene que ser 
+        buffer.createGraphics();
+        // Para poder escribir en el Buffer
+        temporizador.start();
+        // Para que comience a realizar la acción
     }
 
+    private void bucleDelJuego(){
+    // Gobierna el redibujado de los objetos en el jPanel1
+    // Primero borro todo lo que hay en el buffer
+        Graphics2D g2 = (Graphics2D) buffer.getGraphics();
+    // Lo que hace g2 es que busque en la zona de memoria donde está el buffer
+        g2.setColor(Color.BLACK);
+    // Le decimos que lo pinte en color negro
+        g2.fillRect(0, 0, ANCHOPANTALLA, ALTOPANTALLA);
+    // Borramos lo que hubiera en pantalla
+    
+    ///////////////////////////////////////////////////////////////////////////
+    
+    // Redibujamos aquí cada elemento 
+    
+    
+    
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //********** Fase Final: se dibuja el buffer sobre el jPanel1 ***********//
+    
+    g2 = (Graphics2D) jPanel1.getGraphics();
+    g2.drawImage(buffer, 0, 0, null);
+    // El draw nos indica lo que debe dibujar en primer lugar, en segundo la 
+    // posición y null porque si no no funciona
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,17 +83,32 @@ public class VentanaJuego extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 529, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -79,5 +150,6 @@ public class VentanaJuego extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
