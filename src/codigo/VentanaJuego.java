@@ -25,6 +25,8 @@ public class VentanaJuego extends javax.swing.JFrame {
     
     Nave miNave = new Nave();
     // creamos un objeto de tipo nave
+    Disparo miDisparo = new Disparo();
+    // creamos un objeto de tipo disparo
     
     Timer temporizador = new Timer (10, new ActionListener() {
          // 10 es el tiempo que va a tardar en llamar a la función
@@ -72,7 +74,15 @@ public class VentanaJuego extends javax.swing.JFrame {
     
     // DIBUJO NAVE
     g2.drawImage(miNave.imagen, miNave.x, miNave.y, null);
+     // DIBUJO DISPARO
+    g2.drawImage(miDisparo.imagen, miDisparo.x, miDisparo.y, null);
+    // Se mueve la nave
     miNave.mueve();
+     // Se mueve el disparo
+    miDisparo.mueve();
+    
+    
+    
     
     ///////////////////////////////////////////////////////////////////////////
     //********** Fase Final: se dibuja el buffer sobre el jPanel1 ***********//
@@ -140,14 +150,14 @@ public class VentanaJuego extends javax.swing.JFrame {
             case KeyEvent.VK_LEFT: miNave.setPulsadoIzquierda(true); break;
             // break para que no ejecute la linea de abajo
             case KeyEvent.VK_RIGHT: miNave.setPulsadoDerecha(true); break;
-        
+            case KeyEvent.VK_SPACE: miDisparo.x = miNave.x;
+                                    miDisparo.y = miNave.y; break;
         }
     }//GEN-LAST:event_formKeyPressed
 
     private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
         switch (evt.getKeyCode()){      
             case KeyEvent.VK_LEFT: miNave.setPulsadoIzquierda(false); break;
-            // break para que no ejecute la linea de abajo
             case KeyEvent.VK_RIGHT: miNave.setPulsadoDerecha(false); break;
         }
     }//GEN-LAST:event_formKeyReleased
