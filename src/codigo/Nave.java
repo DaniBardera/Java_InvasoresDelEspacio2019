@@ -19,6 +19,9 @@ public class Nave {
     // Al principio la imagen no vale nada
     public int x = 0;
     public int y = 0;
+    private boolean pulsadoIzquierda = false;
+    // Realizamos un getter and setter con insert code
+    private boolean pulsadoDerecha = false;
     
     public Nave(){ 
         try {
@@ -30,8 +33,32 @@ public class Nave {
                     } catch (IOException ex) {
           
         }
-    
-        
     }
-    
+    public void mueve(){
+        if (pulsadoIzquierda){
+        x--;
+    }
+        if (pulsadoDerecha){
+        x++;
+    }
+      
+    }
+
+    public boolean isPulsadoIzquierda() {
+        return pulsadoIzquierda;
+    }
+
+    public void setPulsadoIzquierda(boolean pulsadoIzquierda) {
+        this.pulsadoIzquierda = pulsadoIzquierda;
+        this.pulsadoDerecha = false;
+    }
+
+    public boolean isPulsadoDerecha() {
+        return pulsadoDerecha;
+    }
+
+    public void setPulsadoDerecha(boolean pulsadoDerecha) {
+        this.pulsadoDerecha = pulsadoDerecha;
+        this.pulsadoIzquierda = false;
+    }
 }
