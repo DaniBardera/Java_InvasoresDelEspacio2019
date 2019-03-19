@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
@@ -76,7 +77,8 @@ public class VentanaJuego extends javax.swing.JFrame {
                 listaMarcianos[i][j].x = j*(15 + listaMarcianos[i][j].imagen1.getWidth(null));
                 listaMarcianos[i][j].y = i*(10 + listaMarcianos[i][j].imagen1.getHeight(null));               
             }
-        }      
+        }   
+        miDisparo.posicionaDisparo(miNave);
     }
 
     private void bucleDelJuego(){
@@ -102,6 +104,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     // DIBUJO MARCIANO
     
     pintaMarcianos(g2);
+    chequeaColision();
     
      // Se mueve la nave
     miNave.mueve();
@@ -119,14 +122,43 @@ public class VentanaJuego extends javax.swing.JFrame {
     // posición y null porque si no no funciona
     }
     
+    private void chequeaColision(){
+        Rectangle2D.Double rectanguloMarciano = new Rectangle2D.Double();
+        Rectangle2D.Double rectanguloDisparo = new Rectangle2D.Double();
+        
+        // Rectángulo disparo
+        rectanguloDisparo.setFrame( miDisparo.x, 
+                                    miDisparo.y, 
+                                    miDisparo.imagen.getWidth(null),
+                                    miDisparo.imagen.getHeight(null));
+    
+        // Rectángulo marciano
+        for (int i=0; i<filas; i++){
+              for (int j=0; j<columnas; j++){
+                   rectanguloMarciano.setFrame(listaMarcianos[i][j].x,
+                                                listaMarcianos[i][j].y,
+                                                listaMarcianos[i][j].imagen1.getWidth(null),
+                                                listaMarcianos[i][j].imagen1.getHeight(null)
+                                                );
+                   
+            // chequea cuando se cruzan el disparo y marciano
+            if (rectanguloDisparo.intersects(rectanguloMarciano)){
+                // Mandamos al marciano fuera de la pantalla
+                listaMarcianos[i][j].y = 2000;
+                // lo colocamos en la nave
+                miDisparo.posicionaDisparo(miNave);
+            }
+          }
+       }
+}
+    
     private void cambiaDireccionMarcianos(){
          for (int i=0; i<filas; i++){
               for (int j=0; j<columnas; j++){
                    listaMarcianos[i][j].setvX(listaMarcianos[0][0].getvX()* -1);
               }
          }
-    }
-    
+}
     private void pintaMarcianos(Graphics2D _g2){
        
         int anchoMarciano = listaMarcianos[0][0].imagen1.getWidth(null);
