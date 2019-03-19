@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.Timer;
 
 /*
- * @author Daniel Bardera
+ * Autor: Daniel Bardera
  */
 public class VentanaJuego extends javax.swing.JFrame {
 
@@ -18,6 +18,10 @@ public class VentanaJuego extends javax.swing.JFrame {
     // Static si quieres que una variable no cambie durante el juego
     // se pone en mayúsculas el nombre de la variable
     static int ALTOPANTALLA = 450;
+    
+    // Número de marcianos que van a aparecer  
+    int filas = 5;
+    int columnas = 10;
     
     BufferedImage buffer = null;
     // El buffer almacena las operaciones que vamos realizando para no 
@@ -27,6 +31,13 @@ public class VentanaJuego extends javax.swing.JFrame {
     // creamos un objeto de tipo nave
     Disparo miDisparo = new Disparo();
     // creamos un objeto de tipo disparo
+    // Marciano miMarciano = new Marciano();
+    // creamos un objeto de tipo marciano
+    Marciano [][] listaMarcianos = new Marciano [filas][columnas];
+            //Array 2 dimensiones
+    boolean direccionMarcianos = false;   
+    
+   
     
     Timer temporizador = new Timer (10, new ActionListener() {
          // 10 es el tiempo que va a tardar en llamar a la función
@@ -56,6 +67,14 @@ public class VentanaJuego extends javax.swing.JFrame {
         miNave.y = ALTOPANTALLA - miNave.imagen.getHeight(this) - 40;
          //menos 40 para que salga un poco por encima 
               
+        // INICIALIZO EL ARRAY DE MARCIANOS
+        for (int i=0; i<filas; i++){
+            for (int j=0; j<columnas; j++){
+                listaMarcianos[i][j] = new Marciano();
+                listaMarcianos[i][j].x = j*(15 + listaMarcianos[i][j].imagen1.getWidth(null));
+                listaMarcianos[i][j].y = i*(10 + listaMarcianos[i][j].imagen1.getHeight(null));               
+            }
+        }      
     }
 
     private void bucleDelJuego(){
@@ -67,6 +86,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     // Le decimos que lo pinte en color negro
         g2.fillRect(0, 0, ANCHOPANTALLA, ALTOPANTALLA);
     // Borramos lo que hubiera en pantalla
+ 
     
     ///////////////////////////////////////////////////////////////////////////
     
@@ -74,14 +94,17 @@ public class VentanaJuego extends javax.swing.JFrame {
     
     // DIBUJO NAVE
     g2.drawImage(miNave.imagen, miNave.x, miNave.y, null);
-     // DIBUJO DISPARO
+    // DIBUJO DISPARO
     g2.drawImage(miDisparo.imagen, miDisparo.x, miDisparo.y, null);
-    // Se mueve la nave
+    // DIBUJO MARCIANO
+    
+    pintaMarcianos(g2);
+    
+     // Se mueve la nave
     miNave.mueve();
      // Se mueve el disparo
     miDisparo.mueve();
-    
-    
+  
     
     
     ///////////////////////////////////////////////////////////////////////////
@@ -91,6 +114,19 @@ public class VentanaJuego extends javax.swing.JFrame {
     g2.drawImage(buffer, 0, 0, null);
     // El draw nos indica lo que debe dibujar en primer lugar, en segundo la 
     // posición y null porque si no no funciona
+    }
+    
+    private void pintaMarcianos(Graphics2D _g2){
+        for (int i=0; i<filas; i++){
+            for (int j=0; j<columnas; j++){
+                listaMarcianos[i][j].mueve();
+                _g2.drawImage(listaMarcianos[i][j].imagen1,  
+                              listaMarcianos[i][j].x,  
+                              listaMarcianos[i][j].y,
+                              null);
+                
+            }
+        }
     }
     
     /**
@@ -105,6 +141,7 @@ public class VentanaJuego extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 formKeyPressed(evt);
@@ -150,8 +187,7 @@ public class VentanaJuego extends javax.swing.JFrame {
             case KeyEvent.VK_LEFT: miNave.setPulsadoIzquierda(true); break;
             // break para que no ejecute la linea de abajo
             case KeyEvent.VK_RIGHT: miNave.setPulsadoDerecha(true); break;
-            case KeyEvent.VK_SPACE: miDisparo.x = miNave.x;
-                                    miDisparo.y = miNave.y; break;
+            case KeyEvent.VK_SPACE: miDisparo.posicionaDisparo(miNave); break;
         }
     }//GEN-LAST:event_formKeyPressed
 
@@ -166,29 +202,9 @@ public class VentanaJuego extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VentanaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VentanaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VentanaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VentanaJuego.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+      
 
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

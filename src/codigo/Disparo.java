@@ -28,7 +28,10 @@ public class Disparo {
         }
     }
     public void mueve(){
-    
         y--;
+    }
+    public void posicionaDisparo(Nave _nave){
+        x = _nave.x + _nave.imagen.getWidth(null)/2 - imagen.getWidth(null)/2;
+        y = _nave.y - _nave.imagen.getHeight(null)/2;
     }
 }

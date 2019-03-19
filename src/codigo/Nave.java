@@ -35,11 +35,11 @@ public class Nave {
         }
     }
     public void mueve(){
-        if (pulsadoIzquierda){
-        x--;
+        if (pulsadoIzquierda && x > 0){
+        x-= 3;
     }
-        if (pulsadoDerecha){
-        x++;
+        if (pulsadoDerecha  && x < VentanaJuego.ANCHOPANTALLA - imagen.getWidth(null)){
+        x+= 3;
     }
       
     }
