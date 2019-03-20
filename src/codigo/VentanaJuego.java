@@ -78,7 +78,7 @@ public class VentanaJuego extends javax.swing.JFrame {
                 listaMarcianos[i][j].y = i*(10 + listaMarcianos[i][j].imagen1.getHeight(null));               
             }
         }   
-        miDisparo.posicionaDisparo(miNave);
+       
     }
 
     private void bucleDelJuego(){
@@ -97,11 +97,11 @@ public class VentanaJuego extends javax.swing.JFrame {
     
     // Redibujamos aquí cada elemento 
     
-    // DIBUJO NAVE
-    g2.drawImage(miNave.imagen, miNave.x, miNave.y, null);
     // DIBUJO DISPARO
     g2.drawImage(miDisparo.imagen, miDisparo.x, miDisparo.y, null);
-    // DIBUJO MARCIANO
+    // DIBUJO NAVE
+    g2.drawImage(miNave.imagen, miNave.x, miNave.y, null);
+
     
     pintaMarcianos(g2);
     chequeaColision();
@@ -147,6 +147,8 @@ public class VentanaJuego extends javax.swing.JFrame {
                 listaMarcianos[i][j].y = 2000;
                 // lo colocamos en la nave
                 miDisparo.posicionaDisparo(miNave);
+                miDisparo.y = 1000;
+                miDisparo.disparado = false;
             }
           }
        }
@@ -155,7 +157,7 @@ public class VentanaJuego extends javax.swing.JFrame {
     private void cambiaDireccionMarcianos(){
          for (int i=0; i<filas; i++){
               for (int j=0; j<columnas; j++){
-                   listaMarcianos[i][j].setvX(listaMarcianos[0][0].getvX()* -1);
+                   listaMarcianos[i][j].setvX(listaMarcianos[0][0].getvX()*-1);
               }
          }
 }
@@ -252,7 +254,10 @@ public class VentanaJuego extends javax.swing.JFrame {
             case KeyEvent.VK_LEFT: miNave.setPulsadoIzquierda(true); break;
             // break para que no ejecute la linea de abajo
             case KeyEvent.VK_RIGHT: miNave.setPulsadoDerecha(true); break;
-            case KeyEvent.VK_SPACE: miDisparo.posicionaDisparo(miNave); break;
+            case KeyEvent.VK_SPACE: 
+                miDisparo.posicionaDisparo(miNave); 
+                miDisparo.disparado = true;
+                break;
         }
     }//GEN-LAST:event_formKeyPressed
 

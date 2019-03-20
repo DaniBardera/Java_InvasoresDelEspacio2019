@@ -13,8 +13,8 @@ public class Disparo {
     public Image imagen = null;  
     // Al principio la imagen no vale nada
     public int x = 0;
-    public int y = 0;
-
+    public int y = 2000; // Al principio el disparo se pinta por debajo de la pantalla
+    public boolean disparado = false;
     
     public Disparo(){ 
         try {
@@ -28,10 +28,14 @@ public class Disparo {
         }
     }
     public void mueve(){
-        y--;
+        if(disparado){
+             y--;
+        }
+        
     }
     public void posicionaDisparo(Nave _nave){
         x = _nave.x + _nave.imagen.getWidth(null)/2 - imagen.getWidth(null)/2;
         y = _nave.y - _nave.imagen.getHeight(null)/2;
+        
     }
 }
