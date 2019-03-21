@@ -13,6 +13,8 @@ public class Marciano {
     public int x = 0;
     public int y = 0;
     private int vX = 1;
+    public boolean vivo = true;
+    
     
     public Marciano(){
           try {

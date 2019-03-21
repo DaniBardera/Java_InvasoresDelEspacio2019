@@ -131,20 +131,21 @@ public class VentanaJuego extends javax.swing.JFrame {
                                     miDisparo.y, 
                                     miDisparo.imagen.getWidth(null),
                                     miDisparo.imagen.getHeight(null));
-    
+                                 
         // Rectángulo marciano
         for (int i=0; i<filas; i++){
               for (int j=0; j<columnas; j++){
+                if (listaMarcianos[i][j].vivo){  
                    rectanguloMarciano.setFrame(listaMarcianos[i][j].x,
                                                 listaMarcianos[i][j].y,
                                                 listaMarcianos[i][j].imagen1.getWidth(null),
                                                 listaMarcianos[i][j].imagen1.getHeight(null)
                                                 );
-                   
+                }  
             // chequea cuando se cruzan el disparo y marciano
             if (rectanguloDisparo.intersects(rectanguloMarciano)){
-                // Mandamos al marciano fuera de la pantalla
-                listaMarcianos[i][j].y = 2000;
+                // Pasamos de mandar al marciano fuera de la pantalla a eliminarlo
+                listaMarcianos[i][j].vivo = false;
                 // lo colocamos en la nave
                 miDisparo.posicionaDisparo(miNave);
                 miDisparo.y = 1000;
@@ -167,7 +168,9 @@ public class VentanaJuego extends javax.swing.JFrame {
         
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                listaMarcianos[i][j].mueve();
+                if (listaMarcianos[i][j].vivo){
+                    
+                   listaMarcianos[i][j].mueve();
 
                 // Chequeo si el marciano choca contra la pared para cambiar la dirección
                 // de todos los marcianos
@@ -191,8 +194,9 @@ public class VentanaJuego extends javax.swing.JFrame {
                 } else {
                     contador = 0; // reseteamos contador y lo ponemos a 0 de nuevo
                 }
-            }
+            }              
         }
+    }
         if (direccionMarcianos){
             cambiaDireccionMarcianos();
             direccionMarcianos = false;
