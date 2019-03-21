@@ -152,12 +152,12 @@ public class VentanaJuego extends javax.swing.JFrame {
             }
           }
        }
-}
+    }
     
     private void cambiaDireccionMarcianos(){
          for (int i=0; i<filas; i++){
               for (int j=0; j<columnas; j++){
-                   listaMarcianos[i][j].setvX(listaMarcianos[0][0].getvX()*-1);
+                   listaMarcianos[i][j].setvX(listaMarcianos[i][j].getvX()*-1);
               }
          }
 }
@@ -165,35 +165,38 @@ public class VentanaJuego extends javax.swing.JFrame {
        
         int anchoMarciano = listaMarcianos[0][0].imagen1.getWidth(null);
         
-        for (int i=0; i<filas; i++){
-            for (int j=0; j<columnas; j++){
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
                 listaMarcianos[i][j].mueve();
-                
+
                 // Chequeo si el marciano choca contra la pared para cambiar la dirección
                 // de todos los marcianos
-                if (listaMarcianos[i][j].x + anchoMarciano == ANCHOPANTALLA || listaMarcianos[i][j].x == 0){
-                    cambiaDireccionMarcianos();
+                if (listaMarcianos[i][j].x + anchoMarciano == ANCHOPANTALLA || listaMarcianos[i][j].x == 0) {
+                    direccionMarcianos = true;
                 }
-                
-                
+
                 // ponemos la imagen 1
-                if (contador < 50){
-                    _g2.drawImage(listaMarcianos[i][j].imagen1,  
-                              listaMarcianos[i][j].x,  
-                              listaMarcianos[i][j].y,
-                              null);
-        }
-                // ponemos la imagen 2
-                else if (contador < 100){
-                    _g2.drawImage(listaMarcianos[i][j].imagen2,  
-                              listaMarcianos[i][j].x,  
-                              listaMarcianos[i][j].y,
-                              null);
-                
+                if (contador < 50) {
+                    _g2.drawImage(listaMarcianos[i][j].imagen1,
+                            listaMarcianos[i][j].x,
+                            listaMarcianos[i][j].y,
+                            null);
+                } // ponemos la imagen 2
+                else if (contador < 100) {
+                    _g2.drawImage(listaMarcianos[i][j].imagen2,
+                            listaMarcianos[i][j].x,
+                            listaMarcianos[i][j].y,
+                            null);
+
+                } else {
+                    contador = 0; // reseteamos contador y lo ponemos a 0 de nuevo
+                }
             }
-                else contador = 0; // reseteamos contador y lo ponemos a 0 de nuevo
         }
-    }
+        if (direccionMarcianos){
+            cambiaDireccionMarcianos();
+            direccionMarcianos = false;
+        }
     }
     
     /**
