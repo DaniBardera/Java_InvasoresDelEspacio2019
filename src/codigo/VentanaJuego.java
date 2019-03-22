@@ -3,11 +3,16 @@ package codigo;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 /*
@@ -42,6 +47,11 @@ public class VentanaJuego extends javax.swing.JFrame {
     // el contador sirve para decidir que imagen del marciano toca poner
     int contador = 0;
     
+    // Imagen para cargar el SpriteSheet con todos los sprites del juego
+    BufferedImage plantilla = null;
+    
+    Image [] imagenes = new Image[30];
+    
     Timer temporizador = new Timer (10, new ActionListener() {
          // 10 es el tiempo que va a tardar en llamar a la función
         @Override
@@ -56,6 +66,23 @@ public class VentanaJuego extends javax.swing.JFrame {
      */
     public VentanaJuego() {
         initComponents();
+        try { // intenta ejecutar lo que acabamos de añadir. Lo seleccionarnos al pulsar sobre el error
+            plantilla = ImageIO.read(getClass().getResource("/imagenes/invaders2.png"));
+        } catch (IOException ex) {           
+        }
+        
+        // Cargo las imagenes de forma individual en cada imagen del array de imagenes
+        
+        for(int i=0; i<5; i++){
+        // ponemos 6 porque la plantilla tiene 6 filas
+            for (int j=0; j<4; j++){
+                 // ponemos 5 porque la plantilla tiene 5 columnas
+                imagenes[i*4+ j] = plantilla.getSubimage(j*64, i*64, 64, 64);
+                imagenes[i*4 + j] = imagenes[i*4 + j].getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+            }
+        }
+        
+        
         setSize(ANCHOPANTALLA, ALTOPANTALLA);
         buffer = (BufferedImage) jPanel1.createImage(ANCHOPANTALLA, ALTOPANTALLA);
         // con el bufferedImage le marcamos el tipo del que tiene que ser 
@@ -74,6 +101,10 @@ public class VentanaJuego extends javax.swing.JFrame {
         for (int i=0; i<filas; i++){
             for (int j=0; j<columnas; j++){
                 listaMarcianos[i][j] = new Marciano();
+                // Damos un valor concreto a imagen 1 o 2
+                listaMarcianos[i][j].imagen1 = imagenes[4];
+                listaMarcianos[i][j].imagen2 = imagenes[8];
+                
                 listaMarcianos[i][j].x = j*(15 + listaMarcianos[i][j].imagen1.getWidth(null));
                 listaMarcianos[i][j].y = i*(10 + listaMarcianos[i][j].imagen1.getHeight(null));               
             }
