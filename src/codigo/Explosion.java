@@ -6,27 +6,37 @@
 package codigo;
 
 import java.awt.Image;
-import java.awt.Image;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+
 /*
  * Autor: Daniel Bardera
  */
 
-public class Explosion {
-    
-    Clip sonidoExplosion;
-    Image boom = null;
-     
-//posición x-y de la explosion
-    private int x = 0;
-    private int y = 0;
-    private int tiempoDeVida = 50;
 
+public class Explosion {
+   
+    private int x;
+    private int y;
+    private int tiempoDeVida = 50;
     
+    Clip sonidoExplosion = null;
+    Image boom = null;
     
+    /**
+     * Constructor de la clase
+     * Inicializamos el sonido con cada llamada a Explosion
+     */
+    public Explosion() {
+        try {
+            //Inicializo el sonido
+            sonidoExplosion = AudioSystem.getClip();
+            //Abro el fichero de audio del sonido
+            sonidoExplosion.open(AudioSystem.getAudioInputStream(getClass().getResource("/sonidos/explosion.wav")));
+        } catch (Exception e) {
+        }
+    }
+
     public int getTiempoDeVida() {
         return tiempoDeVida;
     }
@@ -35,31 +45,34 @@ public class Explosion {
         this.tiempoDeVida = tiempoDeVida;
     }
 
-    
-    public Explosion (){
-        try {
-            sonidoExplosion = AudioSystem.getClip();
-            sonidoExplosion.open(AudioSystem.getAudioInputStream(
-                     getClass().getResource("/sonidos/explosion.wav")));
-            
-        } catch (Exception ex) {
-        }
-    }
-
+    /**
+     * @return the x
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * @param x the x to set
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * @return the y
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * @param y the y to set
+     */
     public void setY(int y) {
         this.y = y;
     }
-
+    
 }
+
+

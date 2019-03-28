@@ -10,9 +10,10 @@ import javax.imageio.ImageIO;
 public class Marciano {
     
     public Image imagen1, imagen2 = null;
-    public int x = 0;
-    public int y = 0;
+    private int x = 0;
+    private int y = 0;
     private int vX = 1;
+    private int desplazY = 16;
     public boolean vivo = true;
     
     
@@ -21,7 +22,11 @@ public class Marciano {
     }
   
     public void mueve(){
-        x += vX;
+        setX(getX() + vX);
+    }
+    
+    public void mueveEjeY() {
+        setY(getY() + desplazY);
     }
 
     public void setvX(int vX) {
@@ -30,5 +35,47 @@ public class Marciano {
 
     public int getvX() {
         return vX;
+    }
+
+    /**
+     * @return the x
+     */
+    public int getX() {
+        return x;
+    }
+
+    /**
+     * @param x the x to set
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * @return the y
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * @param y the y to set
+     */
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    /**
+     * @return the desplazY
+     */
+    public int getDesplazY() {
+        return desplazY;
+    }
+
+    /**
+     * @param desplazY the desplazY to set
+     */
+    public void setDesplazY(int desplazY) {
+        this.desplazY = desplazY;
     }
 }
